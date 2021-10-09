@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<!-- saved from url=(0123)https://g3doc.corp.google.com/experimental/users/zhiyunlu/longform/asr_attack/g3doc/universal-targeted-audio-adv.md?cl=head -->
+<html class="google mmfb" lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title> Targeted Universal Adversarial Perturbations to End-to-end ASR Models </title>
+    <link href="https://g3doc.corp.google.com/_static/favicon.ico" rel="icon">
+    <link href="./model/sandbar_css_compiled.css"
+        rel="stylesheet" nonce="">
+    <link href="./model/widgets.css"
+        rel="stylesheet" nonce="">
+    <link href="./model/icon" rel="stylesheet"
+        nonce="">
+    <script type="text/javascript" async=""
+        src="./model/analytics.js"
+        nonce=""></script>
+    <script src="./model/jquery1.min.js"
+        nonce=""></script>
+    <script src="./model/empty.js"
+        nonce=""></script>
+    <script src="./model/empty(1).js"
+        nonce=""></script>
+    <script src="./model/empty(2).js"
+        nonce=""></script>
+    <script src="./model/js" async=""
+        nonce=""></script>
+    <script nonce="">window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());</script>
+    <script src="./model/widgets_js_bin.js"
+        nonce=""></script>
+    <link href="./model/css2" rel="stylesheet"
+        nonce="">
+    <link href="./model/css" rel="stylesheet"
+        nonce="">
+    <link href="./model/gazelle_css.css"
+        rel="stylesheet" nonce="">
+    <style type="text/css">
+        .MathJax_Hover_Frame {
+            border-radius: .25em;
+            -webkit-border-radius: .25em;
+            -moz-border-radius: .25em;
+            -khtml-border-radius: .25em;
+            box-shadow: 0px 0px 15px #83A;
+            -webkit-box-shadow: 0px 0px 15px #83A;
+            -moz-box-shadow: 0px 0px 15px #83A;
+            -khtml-box-shadow: 0px 0px 15px #83A;
+            border: 1px solid #A6D ! important;
+            display: inline-block;
+            position: absolute
+        }
+
+        .MathJax_Menu_Button .MathJax_Hover_Arrow {
+            position: absolute;
+            cursor: pointer;
+            display: inline-block;
+            border: 2px solid #AAA;
+            border-radius: 4px;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            -khtml-border-radius: 4px;
+            font-family: 'Courier New', Courier;
+            font-size: 9px;
+            color: #F0F0F0
+        }
+
+        .MathJax_Menu_Button .MathJax_Hover_Arrow span {
+            display: block;
+            background-color: #AAA;
+            border: 1px solid;
+            border-radius: 3px;
+            line-height: 0;
+            padding: 4px
+        }
+
+        .MathJax_Hover_Arrow:hover {
+            color: white !important;
+            border: 2px solid #CCC !important
+        }
+
+        .MathJax_Hover_Arrow:hover span {
+            background-color: #CCC !important
+        }
+    </style>
+    <style type="text/css">
+        #MathJax_About {
+            position: fixed;
+            left: 50%;
+            width: auto;
+            text-align: center;
+            border: 3px outset;
+            padding: 1em 2em;
+            background-color: #DDDDDD;
+            color: black;
+            cursor: default;
+            font-family: message-box;
+            font-size: 120%;
+            font-style: normal;
+            text-indent: 0;
+            text-transform: none;
+            line-height: normal;
+            letter-spacing: normal;
+            word-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            float: none;
+            z-index: 201;
+            border-radius: 15px;
+            -webkit-border-radius: 15px;
+            -moz-border-radius: 15px;
+            -khtml-border-radius: 15px;
+            box-shadow: 0px 10px 20px #808080;
+            -webkit-box-shadow: 0px 10px 20px #808080;
+            -moz-box-shadow: 0px 10px 20px #808080;
+            -khtml-box-shadow: 0px 10px 20px #808080;
+            filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')
+        }
+
+        #MathJax_About.MathJax_MousePost {
+            outline: none
+        }
+
+        .MathJax_Menu {
+            position: absolute;
+            background-color: white;
+            color: black;
+            width: auto;
+            padding: 5px 0px;
+            border: 1px solid #CCCCCC;
+            margin: 0;
+            cursor: default;
+            font: menu;
+            text-align: left;
+            text-indent: 0;
+            text-transform: none;
+            line-height: normal;
+            letter-spacing: normal;
+            word-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            float: none;
+            z-index: 201;
+            border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            -khtml-border-radius: 5px;
+            box-shadow: 0px 10px 20px #808080;
+            -webkit-box-shadow: 0px 10px 20px #808080;
+            -moz-box-shadow: 0px 10px 20px #808080;
+            -khtml-box-shadow: 0px 10px 20px #808080;
+            filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')
+        }
+
+        .MathJax_MenuItem {
+            padding: 1px 2em;
+            background: transparent
+        }
+
+        .MathJax_MenuArrow {
+            position: absolute;
+            right: .5em;
+            padding-top: .25em;
+            color: #666666;
+            font-size: .75em
+        }
+
+        .MathJax_MenuActive .MathJax_MenuArrow {
+            color: white
+        }
+
+        .MathJax_MenuArrow.RTL {
+            left: .5em;
+            right: auto
+        }
+
+        .MathJax_MenuCheck {
+            position: absolute;
+            left: .7em
+        }
+
+        .MathJax_MenuCheck.RTL {
+            right: .7em;
+            left: auto
+        }
+
+        .MathJax_MenuRadioCheck {
+            position: absolute;
+            left: .7em
+        }
+
+        .MathJax_MenuRadioCheck.RTL {
+            right: .7em;
+            left: auto
+        }
+
+        .MathJax_MenuLabel {
+            padding: 1px 2em 3px 1.33em;
+            font-style: italic
+        }
+
+        .MathJax_MenuRule {
+            border-top: 1px solid #DDDDDD;
+            margin: 4px 3px
+        }
+
+        .MathJax_MenuDisabled {
+            color: GrayText
+        }
+
+        .MathJax_MenuActive {
+            background-color: #606872;
+            color: white
+        }
+
+        .MathJax_MenuDisabled:focus,
+        .MathJax_MenuLabel:focus {
+            background-color: #E8E8E8
+        }
+
+        .MathJax_ContextMenu:focus {
+            outline: none
+        }
+
+        .MathJax_ContextMenu .MathJax_MenuItem:focus {
+            outline: none
+        }
+
+        #MathJax_AboutClose {
+            top: .2em;
+            right: .2em
+        }
+
+        .MathJax_Menu .MathJax_MenuClose {
+            top: -10px;
+            left: -10px
+        }
+
+        .MathJax_MenuClose {
+            position: absolute;
+            cursor: pointer;
+            display: inline-block;
+            border: 2px solid #AAA;
+            border-radius: 18px;
+            -webkit-border-radius: 18px;
+            -moz-border-radius: 18px;
+            -khtml-border-radius: 18px;
+            font-family: 'Courier New', Courier;
+            font-size: 24px;
+            color: #F0F0F0
+        }
+
+        .MathJax_MenuClose span {
+            display: block;
+            background-color: #AAA;
+            border: 1.5px solid;
+            border-radius: 18px;
+            -webkit-border-radius: 18px;
+            -moz-border-radius: 18px;
+            -khtml-border-radius: 18px;
+            line-height: 0;
+            padding: 8px 0 6px
+        }
+
+        .MathJax_MenuClose:hover {
+            color: white !important;
+            border: 2px solid #CCC !important
+        }
+
+        .MathJax_MenuClose:hover span {
+            background-color: #CCC !important
+        }
+
+        .MathJax_MenuClose:hover:focus {
+            outline: none
+        }
+    </style>
+    <style type="text/css">
+        .MathJax_Preview .MJXf-math {
+            color: inherit !important
+        }
+    </style>
+    <style type="text/css">
+        .MJX_Assistive_MathML {
+            position: absolute !important;
+            top: 0;
+            left: 0;
+            clip: rect(1px, 1px, 1px, 1px);
+            padding: 1px 0 0 0 !important;
+            border: 0 !important;
+            height: 1px !important;
+            width: 1px !important;
+            overflow: hidden !important;
+            display: block !important;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none
+        }
+
+        .MJX_Assistive_MathML.MJX_Assistive_MathML_Block {
+            width: 100% !important
+        }
+    </style>
+    <style type="text/css">
+        #MathJax_Zoom {
+            position: absolute;
+            background-color: #F0F0F0;
+            overflow: auto;
+            display: block;
+            z-index: 301;
+            padding: .5em;
+            border: 1px solid black;
+            margin: 0;
+            font-weight: normal;
+            font-style: normal;
+            text-align: left;
+            text-indent: 0;
+            text-transform: none;
+            line-height: normal;
+            letter-spacing: normal;
+            word-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            float: none;
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
+            box-shadow: 5px 5px 15px #AAAAAA;
+            -webkit-box-shadow: 5px 5px 15px #AAAAAA;
+            -moz-box-shadow: 5px 5px 15px #AAAAAA;
+            -khtml-box-shadow: 5px 5px 15px #AAAAAA;
+            filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')
+        }
+
+        #MathJax_ZoomOverlay {
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 300;
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            padding: 0;
+            margin: 0;
+            background-color: white;
+            opacity: 0;
+            filter: alpha(opacity=0)
+        }
+
+        #MathJax_ZoomFrame {
+            position: relative;
+            display: inline-block;
+            height: 0;
+            width: 0
+        }
+
+        #MathJax_ZoomEventTrap {
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 302;
+            display: inline-block;
+            border: 0;
+            padding: 0;
+            margin: 0;
+            background-color: white;
+            opacity: 0;
+            filter: alpha(opacity=0)
+        }
+    </style>
+    <style type="text/css">
+        .MathJax_Preview {
+            color: #888
+        }
+
+        #MathJax_Message {
+            position: fixed;
+            left: 1em;
+            bottom: 1.5em;
+            background-color: #E6E6E6;
+            border: 1px solid #959595;
+            margin: 0px;
+            padding: 2px 8px;
+            z-index: 102;
+            color: black;
+            font-size: 80%;
+            width: auto;
+            white-space: nowrap
+        }
+
+        #MathJax_MSIE_Frame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0px;
+            z-index: 101;
+            border: 0px;
+            margin: 0px;
+            padding: 0px
+        }
+
+        .MathJax_Error {
+            color: #CC0000;
+            font-style: italic
+        }
+    </style>
+    <style type="text/css">
+        .MJXp-script {
+            font-size: .8em
+        }
+
+        .MJXp-right {
+            -webkit-transform-origin: right;
+            -moz-transform-origin: right;
+            -ms-transform-origin: right;
+            -o-transform-origin: right;
+            transform-origin: right
+        }
+
+        .MJXp-bold {
+            font-weight: bold
+        }
+
+        .MJXp-italic {
+            font-style: italic
+        }
+
+        .MJXp-scr {
+            font-family: MathJax_Script, 'Times New Roman', Times, STIXGeneral, serif
+        }
+
+        .MJXp-frak {
+            font-family: MathJax_Fraktur, 'Times New Roman', Times, STIXGeneral, serif
+        }
+
+        .MJXp-sf {
+            font-family: MathJax_SansSerif, 'Times New Roman', Times, STIXGeneral, serif
+        }
+
+        .MJXp-cal {
+            font-family: MathJax_Caligraphic, 'Times New Roman', Times, STIXGeneral, serif
+        }
+
+        .MJXp-mono {
+            font-family: MathJax_Typewriter, 'Times New Roman', Times, STIXGeneral, serif
+        }
+
+        .MJXp-largeop {
+            font-size: 150%
+        }
+
+        .MJXp-largeop.MJXp-int {
+            vertical-align: -.2em
+        }
+
+        .MJXp-math {
+            display: inline-block;
+            line-height: 1.2;
+            text-indent: 0;
+            font-family: 'Times New Roman', Times, STIXGeneral, serif;
+            white-space: nowrap;
+            border-collapse: collapse
+        }
+
+        .MJXp-display {
+            display: block;
+            text-align: center;
+            margin: 1em 0
+        }
+
+        .MJXp-math span {
+            display: inline-block
+        }
+
+        .MJXp-box {
+            display: block !important;
+            text-align: center
+        }
+
+        .MJXp-box:after {
+            content: " "
+        }
+
+        .MJXp-rule {
+            display: block !important;
+            margin-top: .1em
+        }
+
+        .MJXp-char {
+            display: block !important
+        }
+
+        .MJXp-mo {
+            margin: 0 .15em
+        }
+
+        .MJXp-mfrac {
+            margin: 0 .125em;
+            vertical-align: .25em
+        }
+
+        .MJXp-denom {
+            display: inline-table !important;
+            width: 100%
+        }
+
+        .MJXp-denom>* {
+            display: table-row !important
+        }
+
+        .MJXp-surd {
+            vertical-align: top
+        }
+
+        .MJXp-surd>* {
+            display: block !important
+        }
+
+        .MJXp-script-box>* {
+            display: table !important;
+            height: 50%
+        }
+
+        .MJXp-script-box>*>* {
+            display: table-cell !important;
+            vertical-align: top
+        }
+
+        .MJXp-script-box>*:last-child>* {
+            vertical-align: bottom
+        }
+
+        .MJXp-script-box>*>*>* {
+            display: block !important
+        }
+
+        .MJXp-mphantom {
+            visibility: hidden
+        }
+
+        .MJXp-munderover,
+        .MJXp-munder {
+            display: inline-table !important
+        }
+
+        .MJXp-over {
+            display: inline-block !important;
+            text-align: center
+        }
+
+        .MJXp-over>* {
+            display: block !important
+        }
+
+        .MJXp-munderover>*,
+        .MJXp-munder>* {
+            display: table-row !important
+        }
+
+        .MJXp-mtable {
+            vertical-align: .25em;
+            margin: 0 .125em
+        }
+
+        .MJXp-mtable>* {
+            display: inline-table !important;
+            vertical-align: middle
+        }
+
+        .MJXp-mtr {
+            display: table-row !important
+        }
+
+        .MJXp-mtd {
+            display: table-cell !important;
+            text-align: center;
+            padding: .5em 0 0 .5em
+        }
+
+        .MJXp-mtr>.MJXp-mtd:first-child {
+            padding-left: 0
+        }
+
+        .MJXp-mtr:first-child>.MJXp-mtd {
+            padding-top: 0
+        }
+
+        .MJXp-mlabeledtr {
+            display: table-row !important
+        }
+
+        .MJXp-mlabeledtr>.MJXp-mtd:first-child {
+            padding-left: 0
+        }
+
+        .MJXp-mlabeledtr:first-child>.MJXp-mtd {
+            padding-top: 0
+        }
+
+        .MJXp-merror {
+            background-color: #FFFF88;
+            color: #CC0000;
+            border: 1px solid #CC0000;
+            padding: 1px 3px;
+            font-style: normal;
+            font-size: 90%
+        }
+
+        .MJXp-scale0 {
+            -webkit-transform: scaleX(.0);
+            -moz-transform: scaleX(.0);
+            -ms-transform: scaleX(.0);
+            -o-transform: scaleX(.0);
+            transform: scaleX(.0)
+        }
+
+        .MJXp-scale1 {
+            -webkit-transform: scaleX(.1);
+            -moz-transform: scaleX(.1);
+            -ms-transform: scaleX(.1);
+            -o-transform: scaleX(.1);
+            transform: scaleX(.1)
+        }
+
+        .MJXp-scale2 {
+            -webkit-transform: scaleX(.2);
+            -moz-transform: scaleX(.2);
+            -ms-transform: scaleX(.2);
+            -o-transform: scaleX(.2);
+            transform: scaleX(.2)
+        }
+
+        .MJXp-scale3 {
+            -webkit-transform: scaleX(.3);
+            -moz-transform: scaleX(.3);
+            -ms-transform: scaleX(.3);
+            -o-transform: scaleX(.3);
+            transform: scaleX(.3)
+        }
+
+        .MJXp-scale4 {
+            -webkit-transform: scaleX(.4);
+            -moz-transform: scaleX(.4);
+            -ms-transform: scaleX(.4);
+            -o-transform: scaleX(.4);
+            transform: scaleX(.4)
+        }
+
+        .MJXp-scale5 {
+            -webkit-transform: scaleX(.5);
+            -moz-transform: scaleX(.5);
+            -ms-transform: scaleX(.5);
+            -o-transform: scaleX(.5);
+            transform: scaleX(.5)
+        }
+
+        .MJXp-scale6 {
+            -webkit-transform: scaleX(.6);
+            -moz-transform: scaleX(.6);
+            -ms-transform: scaleX(.6);
+            -o-transform: scaleX(.6);
+            transform: scaleX(.6)
+        }
+
+        .MJXp-scale7 {
+            -webkit-transform: scaleX(.7);
+            -moz-transform: scaleX(.7);
+            -ms-transform: scaleX(.7);
+            -o-transform: scaleX(.7);
+            transform: scaleX(.7)
+        }
+
+        .MJXp-scale8 {
+            -webkit-transform: scaleX(.8);
+            -moz-transform: scaleX(.8);
+            -ms-transform: scaleX(.8);
+            -o-transform: scaleX(.8);
+            transform: scaleX(.8)
+        }
+
+        .MJXp-scale9 {
+            -webkit-transform: scaleX(.9);
+            -moz-transform: scaleX(.9);
+            -ms-transform: scaleX(.9);
+            -o-transform: scaleX(.9);
+            transform: scaleX(.9)
+        }
+
+        .MathJax_PHTML .noError {
+            vertical-align: ;
+            font-size: 90%;
+            text-align: left;
+            color: black;
+            padding: 1px 3px;
+            border: 1px solid
+        }
+    </style>
+</head>
+
+<body class="color-scheme-default theme-gazelle gazelle-v3 g3doc-has-toc">
+    <div id="MathJax_Message" style="display: none;"></div>
+    <section class="g3doc-messages" role="status"> </section>
+    <p class="g3doc-tooltip g3doc-hidden" role="alert"></p>
+    <div class="gazelle-wrapper">
+        <main>
+            <article>
+                <div class="gazelle-doc-summary gazelle-has-searchbox">
+                    <h1>低资源下端到端的老挝语语音合成</h1>
+                    <div class="g3doc-page-links"
+                        style="position: fixed; left: 1143.36px; bottom: 16px; visibility: visible;"> <button
+                            class="g3doc-page-links-button material-icons" aria-controls="g3doc-page-links-menu"
+                            aria-label="Toggle menu" title="Toggle menu"> <span
+                                class="material-icons g3doc-page-links-button-open">more_vert</span> <span
+                                class="material-icons g3doc-page-links-button-close">close</span></button>
+                        <div class="g3doc-page-links-menu" aria-expanded="false" aria-haspopup="true"
+                            aria-label="Page links menu" id="g3doc-page-links-menu" role="menu">
+                            <ul>
+                                <li> <a class="g3doc-edit-link"
+                                        href="https://cider.corp.google.com/?createWs=G3DOC-asrattack-universaltargetedaudioadv-2021-06-14-051157&amp;file=//depot/google3/experimental/users/zhiyunlu/longform/asr_attack/g3doc/universal-targeted-audio-adv.md"
+                                        aria-label="Edit this page in Cider (Opens in new window)" target="_blank"
+                                        title="Edit this page in Cider (Opens in new window)" role="menuitem"> Edit page
+                                        (e) <i class="material-icons">edit</i> </a> </li>
+                                <li> <a class="g3doc-view-link"
+                                        href="https://cs.corp.google.com/piper///depot/google3/experimental/users/zhiyunlu/longform/asr_attack/g3doc/universal-targeted-audio-adv.md?l=1"
+                                        aria-label="View Markdown source file in Code Search (Opens in new window)"
+                                        target="_blank"
+                                        title="View Markdown source file in Code Search (Opens in new window)"
+                                        role="menuitem"> View source (v) <i class="material-icons">code</i> </a> </li>
+                                <li> <a class="g3doc-dh-link" href="http://go/dh-scores?p=project_name:"
+                                        aria-label="View dH score" target="_blank" title="View dH score"
+                                        role="menuitem"> View dH score (h) <i class="material-icons">assessment</i> </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <g3mark-moma-search class="g3doc-searchbox-search g3doc-search"
+                        data-from="//depot/google3/experimental/users/zhiyunlu/longform/asr_attack/g3doc/universal-targeted-audio-adv.md"
+                        data-hidden-query="site:g3doc.corp.google.com/experimental/users/zhiyunlu/longform/asr_attack/g3doc"
+                        placeholder="Search this site"></g3mark-moma-search>
+                    <div class="g3doc-doc-status g3doc-doc-status-hidden">
+                        <ul class="g3doc-doc-status-crumbs">
+                            <li> Edited <a
+                                    href="https://critique.corp.google.com/#search/&amp;q=is:submitted%20f://depot/google3/experimental/users/zhiyunlu/longform/asr_attack/g3doc/universal-targeted-audio-adv.md&amp;type=cl"
+                                    title="Dates are PST (UTC-8). Click to view all CLs that modified this file."> <time
+                                        class="datetime">2021-06-13</time> </a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="g3doc-toc-container">
+                    <details open="">
+                        <summary id="g3doc-toc-summary">On this page</summary>
+                        <nav class="toc" aria-labelledby="g3doc-toc-title" style="max-height: calc(100vh - 161px);">
+                            <p class="g3doc-toc-title" id="g3doc-toc-title">Page contents</p>
+                            <ul>
+                                <li><a target="_self"
+                                        href="https://g3doc.corp.google.com/experimental/users/zhiyunlu/longform/asr_attack/g3doc/universal-targeted-audio-adv.md?cl=head#abstract"
+                                        class="g3doc-current-toc-section">Abstract</a></li>
+                                <li><a target="_self"
+                                        href="https://g3doc.corp.google.com/experimental/users/zhiyunlu/longform/asr_attack/g3doc/universal-targeted-audio-adv.md?cl=head#audio-agnostic-adversarial-examples"
+                                        class="">Audio-agnostic adversarial examples</a>
+                                    <ul>
+                                        <li><a target="_self"
+                                                href="https://g3doc.corp.google.com/experimental/users/zhiyunlu/longform/asr_attack/g3doc/universal-targeted-audio-adv.md?cl=head#id-pp"
+                                                class="">Prepending perturbation</a></li>
+                                        <li><a target="_self"
+                                                href="https://g3doc.corp.google.com/experimental/users/zhiyunlu/longform/asr_attack/g3doc/universal-targeted-audio-adv.md?cl=head#id-add"
+                                                class="">Additive perturbation</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </nav>
+                    </details>
+                </div>
+                <div class="g3doc-content">
+                    <div class="g3doc-header-container" data-header-level="h1">
+                        <h1 id="targeted-universal-adversarial-perturbations-to-end-to-end-asr-models">Targeted
+                            Universal Adversarial Perturbations to End-to-end ASR Models</h1>
+                        <div class="g3doc-header-links"><button class="g3doc-header-anchor g3doc-permalink-anchor"
+                                title="Copy link to this section" aria-label="Copy link to this section"><i
+                                    class="material-icons" data-ligature="link"></i></button><span
+                                class="g3doc-header-anchor-separator"></span><a
+                                class="g3doc-header-anchor g3doc-edit-anchor material-icons" data-ligature="mode_edit"
+                                title="Edit this section in Cider (Opens in new window)"
+                                aria-label="Edit this section in Cider (Opens in new window)" target="_blank"
+                                href="https://cider.corp.google.com/?createWs=G3DOC-asrattack-universaltargetedaudioadv-2021-06-14-051157&amp;file=//depot/google3/experimental/users/zhiyunlu/longform/asr_attack/g3doc/universal-targeted-audio-adv.md:1"
+                                tabindex="0"></a></div>
+                    </div>
+
+                    <p>作者：</p>
+
+                    <p>本页面演示了低资源下老挝语语音合成任务的一些示例。（暂无）
+                        <!-- <a href="https://arxiv.org/abs/1234.5678">详细信息可以在论文中找到（暂无）</a>. -->
+                    </p>
+
+
+
+                    <div class="g3doc-header-container" data-header-level="h2">
+                        <h2 id="abstract">摘要<span class="g3doc-header-hidden-span"></span></h2>
+                        <div class="g3doc-header-links" style="left: 172px; top: 323.5px;"><button
+                                class="g3doc-header-anchor g3doc-permalink-anchor" title="Copy link to this section"
+                                aria-label="Copy link to this section"><i class="material-icons"
+                                    data-ligature="link"></i></button><span
+                                class="g3doc-header-anchor-separator"></span><a
+                                class="g3doc-header-anchor g3doc-edit-anchor material-icons" data-ligature="mode_edit"
+                                title="Edit this section in Cider (Opens in new window)"
+                                aria-label="Edit this section in Cider (Opens in new window)" target="_blank"
+                                href="https://cider.corp.google.com/?createWs=G3DOC-asrattack-universaltargetedaudioadv-2021-06-14-051157&amp;file=//depot/google3/experimental/users/zhiyunlu/longform/asr_attack/g3doc/universal-targeted-audio-adv.md:11"
+                                tabindex="0"></a></div>
+                    </div>
+
+                    <p><img alt="alt_text" height="275"
+                            src="./model/tacotron2.png"
+                            style="float:right" title="universal targeted adversarial examples">
+                        目前丰富资源语种的语音合成已经非常成熟，但目前在小语种的语音合成任务上依旧面临语料稀缺的问题。在这项工作中，我们构建了一个低资源下的老挝语语音合成系统，
+                        我们的目标是能够在2k文本和2小时的音频对齐语料下训练出一个较好的语音合成系统。尝试解决模型在少量数据下过拟合的问题。</p>
+
+                    <p>老挝语语音合成为创新型工作，在本文工作中，我们采用了tacotron2的模型架构，
+                        后端接入hifigan声码器。由于老挝语属于稀缺性语种， 我们的实验是在低资源下进行的语音合成工作，为了提升整个模型的性能，
+                        我们在encoder输出端融入了XLM-Roberta预训练模型的embedding表征来增加encoder输出的隐态表征，
+                        并在tacotron2的基础上添加了guide attention loss来强制对齐文本和音频，并提升训练效率。</p>
+
+
+
+                    <div class="g3doc-header-container" data-header-level="h3">
+                        <h3 id="id-pp">老挝语合成音频展示<span class="g3doc-header-hidden-span"></span></h3>
+                        <div class="g3doc-header-links" style="left: 330px; top: 991.5px;"><button
+                                class="g3doc-header-anchor g3doc-permalink-anchor" title="Copy link to this section"
+                                aria-label="Copy link to this section"><i class="material-icons"
+                                    data-ligature="link"></i></button><span
+                                class="g3doc-header-anchor-separator"></span><a
+                                class="g3doc-header-anchor g3doc-edit-anchor material-icons" data-ligature="mode_edit"
+                                title="Edit this section in Cider (Opens in new window)"
+                                aria-label="Edit this section in Cider (Opens in new window)" target="_blank"
+                                href="https://cider.corp.google.com/?createWs=G3DOC-asrattack-universaltargetedaudioadv-2021-06-14-051157&amp;file=//depot/google3/experimental/users/zhiyunlu/longform/asr_attack/g3doc/universal-targeted-audio-adv.md:46"
+                                tabindex="0"></a></div>
+                    </div>
+
+                    <ul>
+                        <li>
+                            <div class="g3doc-header-container" data-header-level="h6">
+                                <h6 id="_target_transcript_is_empty_string_1"> 音频演示<span
+                                        class="g3doc-header-hidden-span"></span></h6>
+                                <div class="g3doc-header-links" style="left: 344px; top: 1070px;"><button
+                                        class="g3doc-header-anchor g3doc-permalink-anchor"
+                                        title="Copy link to this section" aria-label="Copy link to this section"><i
+                                            class="material-icons" data-ligature="link"></i></button></div>
+                            </div>
+                            合成的老挝语音频MOS值达到了3.91分,第一列音频为合成音频，第二列音频为原始音频。
+                        </li>
+                    </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="text-align:center">LAO</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="g3doc-header-container" data-header-level="h5">
+                                        <h5 id="universal_perturbation_1"><nobr>音频一</nobr></h5>
+                                        <nobr><p>文本：ປົກກະຕິແລ້ວມີຫ້ອງນ້ອຍໆຢູ່ເທິງລົດໄຟເຊິ່ງສາມາດປ່ຽນເປັນບ່ອນນອນໄດ້</p> </nobr>
+                                        <div class="g3doc-header-links">
+                                            <button class="g3doc-header-anchor g3doc-permalink-anchor"
+                                                title="Copy link to this section"
+                                                aria-label="Copy link to this section">
+                                                <i class="material-icons" data-ligature="link"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="text-align:center">
+                                    <div><g3mark-audio url="audios/1.wav"></g3mark-audio></div>
+                                    <div><img alt="alt_text"
+                                        src="./model/1.png"
+                                        title="waveform of las prepend perturbation"></div>
+                                </td>
+                                <td style="text-align:center"> 
+                                    <g3mark-audio url="audios/1.wav"></g3mark-audio>
+                                    <img alt="alt_text"
+                                        src="./model/1.png"
+                                        title="waveform of rnnt prepend perturbation"> 
+                                </td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <div class="g3doc-header-container" data-header-level="h5">
+                                        <h5 id="universal_perturbation_1">音频二</h5>
+                                        <nobr><p>文本：ຂໍ້ຄວາມດັ່ງກ່າວອອກກ່ອນຫນ້ານີ້ທີ່ອອກເປັນຜູ້ຊົມໃຊ້ຄໍາແກ້ຕົວ</p> </nobr>
+                                        <div class="g3doc-header-links">
+                                            <button class="g3doc-header-anchor g3doc-permalink-anchor"
+                                                title="Copy link to this section"
+                                                aria-label="Copy link to this section">
+                                                <i class="material-icons" data-ligature="link"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="text-align:center">
+                                    <g3mark-audio url="audios/2.wav"></g3mark-audio>
+                                    <img alt="alt_text"
+                                        src="./model/2.png"
+                                        title="waveform of las prepend perturbation">
+                                </td>
+                                <td style="text-align:center">
+                                    <g3mark-audio url="audios/2.wav"></g3mark-audio>
+                                    <img alt="alt_text"
+                                        src="./model/2.png"
+                                        title="waveform of rnnt prepend perturbation">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="g3doc-header-container" data-header-level="h5">
+                                        <h5 id="universal_perturbation_1">音频三</h5>
+                                        <nobr><p>文本：ກໍຍັງແມ່ນບັນຫາທີ່ພວກເຮົາ ໄດ້ຕີລາຄາຢ່າງກົງໄປກົງມາ ກ່ອນໜ້ານີ້ແລ້ວ</p> </nobr>
+                                        <div class="g3doc-header-links">
+                                            <button class="g3doc-header-anchor g3doc-permalink-anchor"
+                                                title="Copy link to this section"
+                                                aria-label="Copy link to this section">
+                                                <i class="material-icons" data-ligature="link"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="text-align:center">
+                                    <g3mark-audio url="audios/3.wav"></g3mark-audio>
+                                    <img alt="alt_text"
+                                        src="./model/3.png"
+                                        title="waveform of las prepend perturbation">
+                                </td>
+                                <td style="text-align:center">
+                                    <g3mark-audio url="audios/3.wav"></g3mark-audio>
+                                    <img alt="alt_text"
+                                        src="./model/3.png"
+                                        title="waveform of rnnt prepend perturbation">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="g3doc-header-container" data-header-level="h5">
+                                        <h5 id="universal_perturbation_1">音频四</h5>
+                                        <nobr><p>文本：ມັນເປັນໄປບໍ່ໄດ້ທີ່ຈະມີຊີວິດຄອບຄົວທີ່ມີຄວາມສຸກແລະເປັນອາຊີບທີ່ປະສົບຜົນສໍາເລັດ</p> </nobr>
+                                        <div class="g3doc-header-links">
+                                            <button class="g3doc-header-anchor g3doc-permalink-anchor"
+                                                title="Copy link to this section"
+                                                aria-label="Copy link to this section">
+                                                <i class="material-icons" data-ligature="link"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="text-align:center">
+                                    <g3mark-audio url="audios/4.wav"></g3mark-audio>
+                                    <img alt="alt_text"
+                                        src="./model/4.png"
+                                        title="waveform of las prepend perturbation">
+                                </td>
+                                <td style="text-align:center">
+                                    <g3mark-audio url="audios/4.wav"></g3mark-audio>
+                                    <img alt="alt_text"
+                                        src="./model/4.png"
+                                        title="waveform of rnnt prepend perturbation">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="g3doc-header-container" data-header-level="h5">
+                                        <h5 id="universal_perturbation_1">音频五</h5>
+                                        <nobr><p>文本：ການມີຄວາມອົດທົນພຽງຢ່າງດຽວບໍ່ອາດຈະສ້າງຄວາມສຳເລັດໃຫ້ທ່ານ</p> </nobr>
+                                        <div class="g3doc-header-links">
+                                            <button class="g3doc-header-anchor g3doc-permalink-anchor"
+                                                title="Copy link to this section"
+                                                aria-label="Copy link to this section">
+                                                <i class="material-icons" data-ligature="link"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="text-align:center">
+                                    <g3mark-audio url="audios/5.wav"></g3mark-audio>
+                                    <img alt="alt_text"
+                                        src="./model/5.png"
+                                        title="waveform of las prepend perturbation">
+                                </td>
+                                <td style="text-align:center">
+                                    <g3mark-audio url="audios/5.wav"></g3mark-audio>
+                                    <img alt="alt_text"
+                                        src="./model/5.png"
+                                        title="waveform of rnnt prepend perturbation">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <!-- <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th style="text-align:center">LAS</th>
+                                <th style="text-align:center">RNN-T</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="g3doc-header-container" data-header-level="h5">
+                                        <h5 id="_universal_perturbation_2"> universal perturbation </h5>
+                                        <div class="g3doc-header-links"><button
+                                                class="g3doc-header-anchor g3doc-permalink-anchor"
+                                                title="Copy link to this section"
+                                                aria-label="Copy link to this section"><i class="material-icons"
+                                                    data-ligature="link"></i></button></div>
+                                    </div>
+                                </td>
+                                <td style="text-align:center">
+                                    <g3mark-audio url="audios/las_add_thank_you.wav"></g3mark-audio> <img alt="alt_text"
+                                        src="./model/las_add_thank_you.png"
+                                        title="las additive perturbation of thank you target">
+                                </td>
+                                <td style="text-align:center">
+                                    <g3mark-audio url="audios/rnnt_add_thank_you.wav"></g3mark-audio> <img
+                                        alt="alt_text"
+                                        src="./model/rnnt_add_thank_you.png"
+                                        title="rnnt additive perturbation of thank you target">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="g3doc-header-container" data-header-level="h5">
+                                        <h5 id="perturbed_utterance_1_4">perturbed utterance 1 </h5>
+                                        <div class="g3doc-header-links"><button
+                                                class="g3doc-header-anchor g3doc-permalink-anchor"
+                                                title="Copy link to this section"
+                                                aria-label="Copy link to this section"><i class="material-icons"
+                                                    data-ligature="link"></i></button></div>
+                                    </div>
+                                    <div class="g3doc-header-container" data-header-level="h6">
+                                        <h6 id="original_transcript_7">original transcript: </h6>
+                                        <div class="g3doc-header-links"><button
+                                                class="g3doc-header-anchor g3doc-permalink-anchor"
+                                                title="Copy link to this section"
+                                                aria-label="Copy link to this section"><i class="material-icons"
+                                                    data-ligature="link"></i></button></div>
+                                    </div> whose feet are as the feet of harts and underneath the everlasting arms <div
+                                        class="g3doc-header-container" data-header-level="h6">
+                                        <h6 id="asr_prediction_thank_you_2">ASR prediction = "thank you"</h6>
+                                        <div class="g3doc-header-links"><button
+                                                class="g3doc-header-anchor g3doc-permalink-anchor"
+                                                title="Copy link to this section"
+                                                aria-label="Copy link to this section"><i class="material-icons"
+                                                    data-ligature="link"></i></button></div>
+                                    </div>
+                                </td>
+                                <td style="text-align:center">
+                                    <g3mark-audio url="audios/las_add_tu_utt1.wav"></g3mark-audio> <img alt="alt_text"
+                                        src="./model/las_add_tu_utt1.png"
+                                        title="las additive perturbation perturbed utt">
+                                </td>
+                                <td style="text-align:center">
+                                    <g3mark-audio url="audios/rnnt_add_tu_utt1.wav"></g3mark-audio> <img alt="alt_text"
+                                        src="./model/rnnt_add_tu_utt1.png"
+                                        title="rnnt additive perturbation perturbed utt">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="g3doc-header-container" data-header-level="h5">
+                                        <h5 id="perturbed_utterance_2_4">perturbed utterance 2 </h5>
+                                        <div class="g3doc-header-links"><button
+                                                class="g3doc-header-anchor g3doc-permalink-anchor"
+                                                title="Copy link to this section"
+                                                aria-label="Copy link to this section"><i class="material-icons"
+                                                    data-ligature="link"></i></button></div>
+                                    </div>
+                                    <div class="g3doc-header-container" data-header-level="h6">
+                                        <h6 id="original_transcript_8">original transcript: </h6>
+                                        <div class="g3doc-header-links"><button
+                                                class="g3doc-header-anchor g3doc-permalink-anchor"
+                                                title="Copy link to this section"
+                                                aria-label="Copy link to this section"><i class="material-icons"
+                                                    data-ligature="link"></i></button></div>
+                                    </div> tis now winter out of doors thought the tree <div
+                                        class="g3doc-header-container" data-header-level="h6">
+                                        <h6 id="asr_prediction_thank_you_3">ASR prediction = "thank you"</h6>
+                                        <div class="g3doc-header-links"><button
+                                                class="g3doc-header-anchor g3doc-permalink-anchor"
+                                                title="Copy link to this section"
+                                                aria-label="Copy link to this section"><i class="material-icons"
+                                                    data-ligature="link"></i></button></div>
+                                    </div>
+                                </td>
+                                <td style="text-align:center">
+                                    <g3mark-audio url="audios/las_add_tu_utt2.wav"></g3mark-audio> <img alt="alt_text"
+                                        src="./model/las_add_tu_utt2.png"
+                                        title="las additive perturbation perturbed utt">
+                                </td>
+                                <td style="text-align:center">
+                                    <g3mark-audio url="audios/rnnt_add_tu_utt2.wav"></g3mark-audio> <img alt="alt_text"
+                                        src="./model/rnnt_add_tu_utt2.png"
+                                        title="rnnt additive perturbation perturbed utt">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table> -->
+                </div>
+            </article>
+        </main>
+        <footer style="max-width: 1034px;"> </footer>
+    </div>
+    <script src="./model/gazelle_new_compiled.js"
+        nonce=""></script>
+    <script src="./model/raphael-min.js"
+        nonce=""></script>
+    <script src="./model/underscore-min.js"
+        nonce=""></script>
+    <script src="./model/sequence-diagram-min.js"
+        nonce=""></script>
+    <script nonce="">themes.roboto = function (diagram, options) { this.init(diagram, options); }; _.extend(themes.roboto.prototype, BaseTheme.prototype, {
+            init_font: function () {
+                this._font = {
+                    'font-size': 16, 'font-family': 'Roboto'
+                };
+            }
+        }); $(".rendered-sequence-diagram").sequenceDiagram({ theme: 'roboto' });</script>
+    <script
+        nonce="">(function () {
+                var theme = ''; var tocMax = 3; var searchExpression = 'site:g3doc.corp.google.com/experimental/users/zhiyunlu/longform/asr_attack/g3doc'; var siteRoot = '/experimental/users/zhiyunlu/longform/asr_attack/g3doc'; var analyticsIds = []; var username = 'zhiyunlu'; var enableCollapsingNav = false; var defaultCollapsingNavExpansionLevel = 0; var positionInfo = [{ id: 'targeted-universal-adversarial-perturbations-to-end-to-end-asr-models', line: 1, depot_path: '//depot/google3/experimental/users/zhiyunlu/longform/asr_attack/g3doc/universal-targeted-audio-adv.md' }, { id: 'abstract', line: 11, depot_path: '//depot/google3/experimental/users/zhiyunlu/longform/asr_attack/g3doc/universal-targeted-audio-adv.md' }, { id: 'audio-agnostic-adversarial-examples', line: 30, depot_path: '//depot/google3/experimental/users/zhiyunlu/longform/asr_attack/g3doc/universal-targeted-audio-adv.md' }, { id: 'id-pp', line: 46, depot_path: '//depot/google3/experimental/users/zhiyunlu/longform/asr_attack/g3doc/universal-targeted-audio-adv.md' }, { id: 'id-add', line: 70, depot_path: '//depot/google3/experimental/users/zhiyunlu/longform/asr_attack/g3doc/universal-targeted-audio-adv.md' }]; var depotPath = '//depot/google3/experimental/users/zhiyunlu/longform/asr_attack/g3doc/universal-targeted-audio-adv.md'; var linkToHeadVersion = ''; var canonicalUrl = 'https://g3doc.corp.google.com/experimental/users/zhiyunlu/longform/asr_attack/g3doc/universal-targeted-audio-adv.md'; var fullCanonicalUrl = 'https://g3doc.corp.google.com/experimental/users/zhiyunlu/longform/asr_attack/g3doc/universal-targeted-audio-adv.md'; var docBugComponent = 0; var buganizerCommentsEnabled = false; var canonicalGoLink = ''; var canonicalGoLinkEnabled = false; var freshOwnerFromFile = ''; var freshStatus = 0; var workspaceForEdit = 'G3DOC-asrattack-universaltargetedaudioadv-2021-06-14-051157'; if (theme.endsWith('_new')) { theme = theme.replace('_new', ''); }
+                if (theme === 'vitess') { theme = 'gato'; }
+                if (!g3doc[theme]) { theme = 'gazelle'; }
+                g3doc[theme].initialize({ tocMax: tocMax, searchExpression: searchExpression, siteRoot: siteRoot, analyticsIds: analyticsIds, freshStatus: freshStatus, theme: theme, username: username, enableCollapsingNav: enableCollapsingNav, defaultCollapsingNavExpansionLevel: defaultCollapsingNavExpansionLevel, positionInfo: positionInfo, depotPath: depotPath, linkToHeadVersion: linkToHeadVersion, canonicalUrl: canonicalUrl, fullCanonicalUrl: fullCanonicalUrl, docBugComponent: docBugComponent, buganizerCommentsEnabled: buganizerCommentsEnabled, canonicalGoLink: canonicalGoLinkEnabled ? canonicalGoLink : null, isAtHead: (typeof linkToHeadVersion === 'string' && linkToHeadVersion.length == 0), freshOwnerFromFile: freshOwnerFromFile, workspaceForEdit: workspaceForEdit, });
+            })();</script>
+    <script src="./model/prettify_compiled.js"
+        nonce=""></script>
+    <link href="./model/prettify.css"
+        rel="stylesheet" nonce="">
+    <script
+        nonce="">$('pre code:not(.no-auto-prettify)').not('.lang-none').not('.language-none').addClass('prettyprint'); prettyPrint();</script>
+    <style>
+        code:empty {
+            display: none
+        }
+    </style>
+    <script type="text/x-mathjax-config;executed=true" nonce="">MathJax.Hub.Config({messageStyle:"none",showProcessingMessages:false,TeX:{equationNumbers:{autoNumber:"AMS"}}
+});</script>
+    <script src="./model/MathJax.js"
+        nonce=""></script>
+    <script src="./model/sorttable-v2-compiled.js"
+        nonce=""></script>
+    <script src="./model/sandbar_js_compiled.js"
+        nonce=""></script>
+    <div class="g3doc-hovercards-sandbar devInfSandbar"
+        style="display: none; padding: 0px; width: auto; min-width: 1100px; height: 102px; background-color: rgb(241, 241, 241);">
+    </div>
+    <script
+        nonce="">devInfSandbar.optIn(['hovercards']); devInfSandbar.init(document.getElementsByClassName('g3doc-hovercards-sandbar')[0]);</script>
+</body>
+
+</html>
