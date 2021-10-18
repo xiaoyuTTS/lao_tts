@@ -784,14 +784,13 @@
                     <p><img alt="alt_text" height="275"
                             src="./model/tacotron2.png"
                             style="float:right" title="universal targeted adversarial examples">
-                        目前丰富资源语种的语音合成已经非常成熟，但目前在小语种的语音合成任务上依旧面临语料稀缺的问题。在这项工作中，我们构建了一个低资源下的老挝语语音合成系统，
-                        我们的目标是能够在2k文本和2小时的音频对齐语料下训练出一个较好的语音合成系统。尝试解决模型在少量数据下过拟合的问题。</p>
-
-                    <p>老挝语语音合成为创新型工作，在本文工作中，我们采用了tacotron2的模型架构，
-                        后端接入hifigan声码器。由于老挝语属于稀缺性语种， 我们的实验是在低资源下进行的语音合成工作，为了提升整个模型的性能，
-                        我们在encoder输出端融入了XLM-Roberta预训练模型的embedding表征来增加encoder输出的隐态表征，
-                        并在tacotron2的基础上添加了guide attention loss来强制对齐文本和音频，并提升训练效率。</p>
-
+                            语音合成（text to speech,TTS）是非常重要的语音任务。基于神经网络模型的语音合成方法在富资源语种
+                            （英语、中文）上取得了不错的效果，合成音频具有良好的自然度，然而由于老挝语语音资源极度稀缺，传统
+                            基于Tacotron2的神经网络语音合成方法在极低资源语料条件下模型难于训练充分，致使出现模型注意力机制
+                            崩坏（Attention collapse），合成音频缺乏流畅度和自然度的问题。为此，该文提出融入预训练模型的低
+                            资源老挝语语音合成方法，在Tacotron2编码端融入老挝语字符粒度的XLM-Roberta预训练模型，利用外部语
+                            言知识辅助语音合成模型训练，帮助模型更好的学习到文本-梅尔谱图的注意力机制对齐关系，提高模型的鲁棒
+                            性。该文方法在1小时老挝语语音合成语料条件下，达到了4.02 MOS评分。</p>
 
 
                     <div class="g3doc-header-container" data-header-level="h3">
@@ -832,7 +831,7 @@
                             <tr>
                                 <td>
                                     <div class="g3doc-header-container" data-header-level="h5">
-                                        <h5 id="universal_perturbation_1"><nobr>音频一</nobr></h5>
+                                        <!-- <h5 id="universal_perturbation_1"><nobr>音频一</nobr></h5> -->
                                         <nobr><p>文本：ຂະບວນລົດໄຟກຳລັງຜ່ອນຄວາມໄວເພື່ອເຂົ້າຈອດສະຖານີວຽງຈັນໃຕ້</p> </nobr>
                                         <div class="g3doc-header-links">
                                             <button class="g3doc-header-anchor g3doc-permalink-anchor"
@@ -862,7 +861,7 @@
                             <tr>
                                 <td>
                                     <div class="g3doc-header-container" data-header-level="h5">
-                                        <h5 id="universal_perturbation_1">音频二</h5>
+                                        <!-- <h5 id="universal_perturbation_1">音频二</h5> -->
                                         <nobr><p>文本：ທ່ານຜູ້ໂດຍສານທີ່ຈະລົງສະຖານີສາລາພາທູແມ່ນໃຫ້ກຽມສູ່ປະຕູເບື້ອງຂວາ</p> </nobr>
                                         <div class="g3doc-header-links">
                                             <button class="g3doc-header-anchor g3doc-permalink-anchor"
@@ -890,7 +889,7 @@
                             <tr>
                                 <td>
                                     <div class="g3doc-header-container" data-header-level="h5">
-                                        <h5 id="universal_perturbation_1">音频三</h5>
+                                        <!-- <h5 id="universal_perturbation_1">音频三</h5> -->
                                         <nobr><p>文本：ສົງຄາມບໍ່ແມ່ນທາງເລືອກສໍາລັບການແກ້ໄຂຂໍ້ຂັດແຍ່ງລະຫວ່າງປະເທດ</p> </nobr>
                                         <div class="g3doc-header-links">
                                             <button class="g3doc-header-anchor g3doc-permalink-anchor"
@@ -912,7 +911,7 @@
                             <tr>
                                 <td>
                                     <div class="g3doc-header-container" data-header-level="h5">
-                                        <h5 id="universal_perturbation_1">音频四</h5>
+                                        <!-- <h5 id="universal_perturbation_1">音频四</h5> -->
                                         <nobr><p>文本：ນັກການທູດໄດ້ຮັບຜົນໄດ້ຮັບທີ່ດີກວ່າໂດຍຜ່ານການສັງເກດ</p> </nobr>
                                         <div class="g3doc-header-links">
                                             <button class="g3doc-header-anchor g3doc-permalink-anchor"
@@ -935,7 +934,7 @@
                             <tr>
                                 <td>
                                     <div class="g3doc-header-container" data-header-level="h5">
-                                        <h5 id="universal_perturbation_1">音频五</h5>
+                                        <!-- <h5 id="universal_perturbation_1">音频五</h5> -->
                                         <nobr><p>文本：ກໍຍັງແມ່ນບັນຫາທີ່ພວກເຮົາ ໄດ້ຕີລາຄາຢ່າງກົງໄປກົງມາ ກ່ອນໜ້ານີ້ແລ້ວ</p> </nobr>
                                         <div class="g3doc-header-links">
                                             <button class="g3doc-header-anchor g3doc-permalink-anchor"
@@ -950,7 +949,7 @@
                                     <g3mark-audio url="audios/2377_attn.wav"></g3mark-audio>
                                 </td>
                                 <td style="text-align:center">
-                                    <g3mark-audio url="audios/2377_truth.wav"></g3mark-audio>>
+                                    <g3mark-audio url="audios/2377_truth.wav"></g3mark-audio>
                                 </td>
                             </tr>
                         </tbody>
